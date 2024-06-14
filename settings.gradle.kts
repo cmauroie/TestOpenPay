@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "TestOpenPay"
 include(":app")
 include(":popularperson")
+include(":core")
