@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.fit.popularperson"
+    namespace = "com.fit.core"
     compileSdk = 34
 
     defaultConfig {
@@ -33,14 +33,11 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.legacy.support.v4)
-    implementation(libs.androidx.lifecycle.livedata.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.ktx)
-    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.retrofit)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
