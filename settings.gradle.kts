@@ -23,3 +23,4 @@ rootProject.name = "TestOpenPay"
 include(":app")
 include(":popularperson")
 include(":core")
+include(":movies")
