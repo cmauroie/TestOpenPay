@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_movies"
-        android:name="com.fit.movies.MoviesFragment"
+        android:name="com.fit.movies.presentation.MoviesFragment"
         android:label="@string/title_movies"
         tools:layout="@layout/fragment_movies" />
 
