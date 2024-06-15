@@ -32,6 +32,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.1"
+    }
 }
 
 dependencies {
@@ -56,6 +63,19 @@ dependencies {
     implementation(libs.room.runtime)
     kapt(libs.room.compiler)
     implementation(libs.room.ktx)
+
+    //Jetpack Compose
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui)
+    implementation(libs.compose.ui.graphics)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.material)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.ui.test.manifest)
+    implementation(libs.compose.runtime.livedata)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.foundation.layout)
+    implementation(libs.coil.compose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

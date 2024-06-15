@@ -1,5 +1,6 @@
 package com.fit.core.di
 
+import com.fit.core.ACCESS_TOKEN
 import com.fit.core.URL_BASE
 import dagger.Module
 import dagger.Provides
@@ -27,6 +28,13 @@ object ServerModule {
     fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(loggingInterceptor)
+            .addInterceptor { chain ->
+                val request = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer $ACCESS_TOKEN")
+                    .addHeader("accept", "application/json")
+                    .build()
+                chain.proceed(request)
+            }
             .build()
     }
 
