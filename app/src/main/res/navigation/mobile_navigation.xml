@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_popularperson"
-        android:name="com.fit.popularperson.PopularPersonFragment"
+        android:name="com.fit.popularperson.presentation.PopularPersonFragment"
         android:label="@string/title_popularperson"
         tools:layout="@layout/fragment_home" />
 

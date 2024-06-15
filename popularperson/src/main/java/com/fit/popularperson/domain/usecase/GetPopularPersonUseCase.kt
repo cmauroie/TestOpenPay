@@ -2,9 +2,10 @@ package com.fit.popularperson.domain.usecase
 
 import com.fit.core.server.Resource
 import com.fit.popularperson.domain.model.ProfileModel
-import com.fit.popularperson.domain.repository.PopularPeopleRepository
+import com.fit.popularperson.domain.repository.RemotePopularPeopleRepository
+import javax.inject.Inject
 
-class GetPopularPersonUseCase constructor(private val repository: PopularPeopleRepository) {
+class GetPopularPersonUseCase @Inject constructor(private val repository: RemotePopularPeopleRepository) {
     suspend operator fun invoke(): ProfileModel? {
         return when (val response = repository.getPopularPeople()) {
             is Resource.Success -> {
@@ -15,7 +16,6 @@ class GetPopularPersonUseCase constructor(private val repository: PopularPeopleR
                     null
                 }
             }
-
             is Resource.Failure -> {
                 null
             }
