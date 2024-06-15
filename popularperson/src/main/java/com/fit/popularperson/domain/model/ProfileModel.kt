@@ -8,7 +8,7 @@ data class ProfileModel(
     val knownForDepartment: String,
     val name: String,
     val originalName: String,
-    val popularity: Double,
+    val popularity: Int,
     val profilePath: String,
     val allTitleMovies: String,
 )
