@@ -13,7 +13,7 @@ class RemotePopularPeopleDataSourceImp @Inject constructor(private val apiClient
     SafeApiCall {
     override suspend fun getPopularPeople(): Resource<List<ProfileModel>> {
         return safeApiCall {
-            apiClient.getpopularpeoples().toDomainModel()
+            apiClient.getPopularPeople().toDomainModel()
         }
     }
 }
