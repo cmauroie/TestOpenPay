@@ -4,11 +4,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
-import com.fit.map.MapsFragment
+import com.fit.map.presentation.MapsFragment
 import com.fit.movies.presentation.MoviesFragment
 import com.fit.popularperson.presentation.PopularPersonFragment
 import com.fit.testopenpay.databinding.ActivityMainBinding
@@ -74,7 +71,7 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-        // Load the initial fragment
+
         if (savedInstanceState == null) {
             navView.selectedItemId = R.id.navigation_popularperson
         }

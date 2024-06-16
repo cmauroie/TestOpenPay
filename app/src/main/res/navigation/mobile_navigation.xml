@@ -19,7 +19,7 @@
 
     <fragment
         android:id="@+id/navigation_map"
-        android:name="com.fit.map.MapsFragment"
+        android:name="com.fit.map.presentation.MapsFragment"
         android:label="@string/title_map"
         tools:layout="@layout/fragment_maps" />
 
