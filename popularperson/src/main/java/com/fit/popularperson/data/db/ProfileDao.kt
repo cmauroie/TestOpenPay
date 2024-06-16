@@ -12,11 +12,17 @@ interface ProfileDao {
 
     @Transaction
     @Query("SELECT * FROM profile LIMIT 1")
-    fun getFirstProfileWithKnownFor(): Flow<ProfileWithKnownFor>
+    fun getFirstProfileWithKnownFor(): Flow<ProfileWithKnownFor?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertProfile(profile: ProfileEntity)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertKnownFor(knownFor: List<KnownForEntity>)
+
+    @Query("DELETE FROM profile")
+    suspend fun deleteAllProfiles()
+
+    @Query("DELETE FROM known_for")
+    suspend fun deleteAllAboutKnownFor()
 }
