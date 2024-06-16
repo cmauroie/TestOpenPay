@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface LocalMovieRepository {
     suspend fun getAllMovies(): Flow<List<CategoryModel>>
 
-    suspend fun insertCategory(category: List<CategoryModel>)
+    suspend fun insertCategory(category: CategoryModel)
 
-    suspend fun insertMovie(knownFor: List<MovieModel>)
+    suspend fun clearDatabase()
 }
