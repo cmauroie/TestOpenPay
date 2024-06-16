@@ -14,6 +14,7 @@ class GetPopularPersonUseCase @Inject constructor(private val remoteRepository: 
             is Resource.Success -> {
                 val listPeople = response.value
                 if (listPeople.isNotEmpty()) {
+                    localRepository.clearDatabase()
                     val a = listPeople[0]
                     localRepository.insertProfile(a)
                     listPeople[0]

@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class LocalPopularPersonRepositoryImp @Inject constructor(private val dataSource: LocalPopularPersonDataSource) :
     LocalPopularPersonRepository {
-    override suspend fun getPopularPerson(): Flow<ProfileModel> {
+    override suspend fun getPopularPerson(): Flow<ProfileModel?> {
         return dataSource.getPopularPerson()
     }
 
@@ -20,6 +20,10 @@ class LocalPopularPersonRepositoryImp @Inject constructor(private val dataSource
 
     override suspend fun insertKnownFor(knownFor: List<KnownForModel>) {
         dataSource.insertKnownFor(knownFor)
+    }
+
+    override suspend fun clearDatabase() {
+        dataSource.deleteAll()
     }
 
 }

@@ -9,23 +9,27 @@ import com.fit.movies.domain.enum.MovieCategory
 import com.fit.movies.domain.model.CategoryModel
 import javax.inject.Inject
 
-class RemoteMovieDataSourceImp @Inject constructor(private val apiClient: ApiClient): RemoteMovieDataSource,
+class RemoteMovieDataSourceImp @Inject constructor(private val apiClient: ApiClient) :
+    RemoteMovieDataSource,
     SafeApiCall {
     override suspend fun getPopularMovies(): Resource<CategoryModel> {
         return safeApiCall {
-            apiClient.getPopularMovies().toDomainModel(MovieCategory.POPULAR.path)
+            apiClient.getPopularMovies()
+                .toDomainModel(MovieCategory.POPULAR.id, MovieCategory.POPULAR.path)
         }
     }
 
     override suspend fun getTopRatedMovies(): Resource<CategoryModel> {
         return safeApiCall {
-            apiClient.getTopRatedMovies().toDomainModel(MovieCategory.TOP_RATED.path)
+            apiClient.getTopRatedMovies()
+                .toDomainModel(MovieCategory.TOP_RATED.id, MovieCategory.TOP_RATED.path)
         }
     }
 
     override suspend fun getRecommendationsMovies(): Resource<CategoryModel> {
         return safeApiCall {
-            apiClient.getRecommendations().toDomainModel(MovieCategory.RECOMMENDED.path)
+            apiClient.getRecommendations()
+                .toDomainModel(MovieCategory.RECOMMENDED.id, MovieCategory.RECOMMENDED.path)
         }
     }
 }

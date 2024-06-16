@@ -19,8 +19,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import coil.compose.rememberAsyncImagePainter
+import com.fit.core.common.LoadingImage
+import com.fit.core.common.NoConnectionImage
 import com.fit.movies.domain.model.CategoryModel
 import com.fit.movies.domain.model.MovieModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,8 +56,27 @@ class MoviesFragment : Fragment() {
 
 @Composable
 fun AllCategoriesScreen(viewModel: MoviesViewModel) {
-    val categories by viewModel.allCategories.observeAsState(initial = emptyList())
+    val uiModel by viewModel.uiModel.collectAsState()
 
+    when (val uiModelValue = uiModel) {
+        MoviesViewModel.UIModel.Loading -> {
+            LoadingImage()
+        }
+
+        MoviesViewModel.UIModel.NoConnection -> {
+            NoConnectionImage(onClick = {
+                viewModel.fetchMovies()
+            })
+        }
+
+        is MoviesViewModel.UIModel.ShowView -> {
+            BodyTabMovie(uiModelValue.categoryModel)
+        }
+    }
+}
+
+@Composable
+fun BodyTabMovie(categories: List<CategoryModel>) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()

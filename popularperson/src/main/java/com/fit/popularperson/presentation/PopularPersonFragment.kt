@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,7 +17,6 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Card
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -35,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import coil.compose.rememberAsyncImagePainter
+import com.fit.core.common.LoadingImage
+import com.fit.core.common.NoConnectionImage
 import com.fit.popularperson.R
 import com.fit.popularperson.domain.model.KnownForModel
 import com.fit.popularperson.domain.model.ProfileModel
@@ -45,10 +45,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class PopularPersonFragment : Fragment() {
 
     private val viewModel: PopularPersonViewModel by viewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -128,50 +124,6 @@ fun MovieCard(movie: ProfileModel) {
                 )
             }
         }
-    }
-}
-
-@Composable
-fun NoConnectionImage(onClick: () -> Unit) {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .wrapContentSize()
-            .clickable { onClick() },
-        horizontalAlignment = Alignment.CenterHorizontally,
-
-        ) {
-        Image(
-            painter = painterResource(R.drawable.offline_icon),
-            contentDescription = null,
-            modifier = Modifier
-                .size(100.dp)
-                .padding(bottom = 8.dp)
-        )
-        Text(
-            text = "You are offline. Please check your internet connection",
-            style = MaterialTheme.typography.h6,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-}
-
-@Composable
-fun LoadingImage() {
-    Column(
-        modifier = Modifier
-            .padding(8.dp)
-            .wrapContentSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        CircularProgressIndicator()
-        Text(
-            text = "Loading",
-            style = MaterialTheme.typography.h6,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
     }
 }
 
