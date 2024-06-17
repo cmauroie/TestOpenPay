@@ -5,8 +5,10 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +22,7 @@ import com.fit.photo.utils.showPermissionDeniedDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 import com.bumptech.glide.Glide
+import java.io.InputStream
 
 @AndroidEntryPoint
 class PhotoFragment : Fragment() {
@@ -28,11 +31,8 @@ class PhotoFragment : Fragment() {
 
     private lateinit var binding: FragmentPhotoBinding
     private var imageBitmap: Bitmap? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private var listUri: List<Uri> = listOf()
 
-        // TODO: Use the ViewModel
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,7 +58,23 @@ class PhotoFragment : Fragment() {
             val data = baos.toByteArray()
             viewModel.sendPhotoToFirestorage(data)
         }
+
+        binding.buttonSavePhotos.setOnClickListener {
+            syncImageList()
+        }
+        binding.buttonSelectFromGallery.setOnClickListener {
+            openGalleryForImages()
+        }
         observerViewModel()
+    }
+
+    private fun syncImageList() {
+        listUri.forEach { uri ->
+            val byteArray = uriToByteArray(uri)
+            if (byteArray != null) {
+                viewModel.sendPhotoToFirestorage(byteArray)
+            }
+        }
     }
 
     private fun observerViewModel() {
@@ -76,9 +92,11 @@ class PhotoFragment : Fragment() {
                     Glide.with(this)
                         .load(it.photoUrl)
                         .into(binding.imageView)
-                    /*it.locationModel.apply {
-                        showMarker(latitude, longitude, date)
-                    }*/
+                }
+
+                is PhotoViewModel.UIModel.ShowCountImage -> {
+                    listUri = it.listUri
+                    binding.txtCountImages.text = it.listUri.size.toString()
                 }
             }
         })
@@ -110,7 +128,6 @@ class PhotoFragment : Fragment() {
                 takePicture()
             } else {
                 showPermissionDeniedDialog(requireActivity())
-                //Toast.makeText(requireContext(), "Permisos requeridos para tomar fotos", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -124,16 +141,60 @@ class PhotoFragment : Fragment() {
         }
     }
 
+    private fun openGalleryForImages() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            type = "image/*"
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        }
+        startActivityForResult(Intent.createChooser(intent, "Select Pictures"), PICK_IMAGES_REQUEST_CODE)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
             imageBitmap = data?.extras?.get("data") as Bitmap
             binding.imageView.setImageBitmap(imageBitmap)
         }
+        if (requestCode == PICK_IMAGES_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            if (data?.clipData != null) {
+
+                val count = data.clipData!!.itemCount
+                val imageUris = mutableListOf<Uri>()
+                for (i in 0 until count) {
+                    val imageUri = data.clipData!!.getItemAt(i).uri
+                    imageUris.add(imageUri)
+                }
+                handleSelectedImages(imageUris)
+            } else if (data?.data != null) {
+                val imageUri = data.data!!
+                handleSelectedImages(listOf(imageUri))
+            }
+        }
+    }
+
+    private fun handleSelectedImages(imageUris: List<Uri>) {
+        viewModel.updateImageUris(imageUris)
+    }
+
+    private fun uriToByteArray(uri: Uri): ByteArray? {
+        return try {
+            val inputStream: InputStream? = this.requireActivity().contentResolver.openInputStream(uri)
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            val buffer = ByteArray(1024)
+            var length: Int
+            while (inputStream?.read(buffer).also { length = it ?: -1 } != -1) {
+                byteArrayOutputStream.write(buffer, 0, length)
+            }
+            byteArrayOutputStream.toByteArray()
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error al convertir URI a ByteArray: ${e.message}")
+            null
+        }
     }
 
     companion object {
         private const val PERMISSION_REQUEST_CODE = 1003
         private const val REQUEST_IMAGE_CAPTURE = 1004
+        private const val PICK_IMAGES_REQUEST_CODE = 1005
     }
 }

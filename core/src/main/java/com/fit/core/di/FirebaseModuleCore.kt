@@ -2,8 +2,8 @@ package com.fit.core.di
 
 import android.content.Context
 import com.google.firebase.FirebaseApp
-import com.google.firebase.appcheck.FirebaseAppCheck
-import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
+//import com.google.firebase.appcheck.FirebaseAppCheck
+//import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +20,7 @@ object FirebaseModuleCore {
         return FirebaseApp.initializeApp(context) ?: throw IllegalStateException("FirebaseApp initialization failed")
     }
 
-    @Singleton
+    /*@Singleton
     @Provides
     fun providerFirebaseAppCheck(debugAppCheckProviderFactory:DebugAppCheckProviderFactory): FirebaseAppCheck {
         val firebaseAppCheck = FirebaseAppCheck.getInstance()
@@ -32,5 +32,5 @@ object FirebaseModuleCore {
     @Provides
     fun providerDebugAppCheck(): DebugAppCheckProviderFactory {
         return DebugAppCheckProviderFactory.getInstance()
-    }
+    }*/
 }

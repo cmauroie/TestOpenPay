@@ -76,5 +76,5 @@ dependencies {
     //Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.common.ktx)
-    implementation(libs.firebase.appcheck)
+    //implementation(libs.firebase.appcheck)
 }
