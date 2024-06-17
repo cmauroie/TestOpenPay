@@ -30,7 +30,7 @@ object LocationModule {
     @Singleton
     @Provides
     fun providerLocationRequest(): LocationRequest {
-        return LocationRequest.Builder(20000)
+        return LocationRequest.Builder(300000)
             .setPriority(Priority.PRIORITY_HIGH_ACCURACY)
             .setWaitForAccurateLocation(true)
             .build()

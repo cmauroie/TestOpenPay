@@ -22,6 +22,8 @@ import com.fit.photo.utils.showPermissionDeniedDialog
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.ByteArrayOutputStream
 import com.bumptech.glide.Glide
+import com.fit.photo.presentation.adapter.ItemPhotoModel
+import com.fit.photo.presentation.adapter.PhotoAdapter
 import java.io.InputStream
 
 @AndroidEntryPoint
@@ -66,6 +68,7 @@ class PhotoFragment : Fragment() {
             openGalleryForImages()
         }
         observerViewModel()
+
     }
 
     private fun syncImageList() {
@@ -187,10 +190,17 @@ class PhotoFragment : Fragment() {
             }
             byteArrayOutputStream.toByteArray()
         } catch (e: Exception) {
-            Log.e("MainActivity", "Error al convertir URI a ByteArray: ${e.message}")
+            Log.e("PhotoFragment", "Error al convertir URI a ByteArray: ${e.message}")
             null
         }
     }
+
+    private fun setupRecycler(featureList: List<ItemPhotoModel>) {
+        binding.recyclerPhotos.apply {
+            adapter = PhotoAdapter(requireContext(), featureList)
+        }
+    }
+
 
     companion object {
         private const val PERMISSION_REQUEST_CODE = 1003
