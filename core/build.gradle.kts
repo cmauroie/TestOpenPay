@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -25,6 +27,20 @@ android {
             )
         }
     }
+
+    val propertiesFile = rootProject.file("local.properties")
+    if (propertiesFile.exists()) {
+        val properties = Properties()
+        properties.load(propertiesFile.inputStream())
+
+        properties.forEach { key, value ->
+            buildTypes.forEach { buildType ->
+                if (key != "sdk.dir") {
+                buildType.buildConfigField("String", key.toString(), "\"$value\"")
+                }
+            }
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -34,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     composeOptions {

@@ -1,6 +1,7 @@
 package com.fit.popularperson.data.mappers
 
-import com.fit.core.URL_BASE_IMAGE
+
+import com.fit.core.BuildConfig
 import com.fit.popularperson.data.db.KnownForEntity
 import com.fit.popularperson.data.db.ProfileEntity
 import com.fit.popularperson.data.db.ProfileWithKnownFor
@@ -26,7 +27,7 @@ fun ResultDto.toDomainModel(): ProfileModel {
         this.name,
         this.originalName,
         this.popularity.toInt(),
-        "$URL_BASE_IMAGE${this.profilePath}",
+        "${BuildConfig.URL_BASE_IMAGE}${this.profilePath}",
         getConcatenatedTitles(knownForModelList)
     )
 }
@@ -36,7 +37,7 @@ fun KnownForDto.toDomainModel(profileID: Long): KnownForModel {
         profileID,
         this.originalName ?: "",
         this.title ?: this.name ?: this.originalName ?: "",
-        "$URL_BASE_IMAGE${this.backdropPath}",
+        "${BuildConfig.URL_BASE_IMAGE}${this.backdropPath}",
         this.overview,
         this.popularity.toInt()
     )
