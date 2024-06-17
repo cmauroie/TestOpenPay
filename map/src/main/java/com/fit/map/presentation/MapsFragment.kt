@@ -13,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.fit.core.permission.PermissionManager
 import com.fit.map.R
@@ -33,13 +35,16 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
 
     @Inject
     lateinit var permissionManager: PermissionManager
+
+    private val viewModel: MapsViewModel by viewModels()
+
     private var googleMap: GoogleMap? = null
     private val REQUEST_CODE_POST_NOTIFICATIONS = 1001
     private val REQUEST_CODE_LOCATION = 1002
 
     private val callback = OnMapReadyCallback { googleMap ->
         this.googleMap = googleMap
-        val sydney = LatLng(4.7110,74.0721)
+        val sydney = LatLng(4.7110, 74.0721)
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
@@ -76,6 +81,11 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
     override fun onStop() {
         super.onStop()
         locationService?.setAppInForeground(false)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        locationService?.registerCallback(null)
     }
 
     private fun bindLocationService() {
@@ -116,6 +126,38 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
             stopService()
         }
         requestNotificationPermission()
+        observerViewModel()
+    }
+
+    private fun observerViewModel() {
+        viewModel.uiModel.observe(this.requireActivity(), Observer {
+            when (it) {
+                MapsViewModel.UIModel.Loading -> {
+
+                }
+
+                MapsViewModel.UIModel.NoConnection -> {
+
+                }
+
+                is MapsViewModel.UIModel.ShowView -> {
+                    it.locationModel.apply {
+                        showMarker(latitude, longitude, date)
+                    }
+                }
+            }
+        })
+    }
+
+    private fun showMarker(latitude: Double, longitude: Double, date: String) {
+        val markerPosition = LatLng(latitude, longitude)
+        val marker = googleMap?.addMarker(
+            MarkerOptions().position(markerPosition).title(date)
+        )
+        googleMap?.moveCamera(CameraUpdateFactory.newLatLng(markerPosition))
+        val zoomLevel = 15f
+        googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition, zoomLevel))
+        marker?.showInfoWindow()
     }
 
     private fun requestLocationPermissions() {
@@ -178,13 +220,10 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
     }
 
     override fun onLocationUpdate(latitude: Double, longitude: Double) {
-        lifecycleScope.launch(Dispatchers.Main) {
-            val markerPosition = LatLng(latitude, longitude)
-            val marker = googleMap?.addMarker(MarkerOptions().position(markerPosition).title("$latitude,$longitude"))
-            googleMap?.moveCamera(CameraUpdateFactory.newLatLng(markerPosition))
-            val zoomLevel = 15f
-            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(markerPosition, zoomLevel))
-            marker?.showInfoWindow()
+        lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.sendLocationFirestore(
+                latitude, longitude
+            )
         }
     }
 
@@ -206,4 +245,6 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
     ) {
         permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
+
 }

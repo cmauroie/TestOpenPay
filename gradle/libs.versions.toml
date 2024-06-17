@@ -18,11 +18,14 @@ retrofit = "2.11.0"
 okhttp = "4.10.0"
 hiltVersion = "2.46"
 room = "2.6.1"
-compose-bom = "2024.06.00"
+composeBom = "2024.06.00"
 coil = "2.4.0"
 googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 playServicesMaps = "18.2.0"
 playServicesLocation = "21.3.0"
+googleServices = "4.4.2"
+firebaseBom = "33.1.0"
+firebaseCommonKtx = "21.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -58,7 +61,7 @@ room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 
 #Jetpack compose
 
-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-material = { module = "androidx.compose.material:material" }
@@ -72,6 +75,10 @@ coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coi
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
+#Firebase
+firebase-bom ={ group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-firestore ={ group = "com.google.firebase", name = "firebase-firestore-ktx"}
+#firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version.ref = "firebaseCommonKtx" }
 
 
 [plugins]
@@ -80,4 +87,5 @@ jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = 
 android-library = { id = "com.android.library", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hiltVersion" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }

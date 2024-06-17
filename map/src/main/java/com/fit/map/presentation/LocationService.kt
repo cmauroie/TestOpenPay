@@ -11,7 +11,10 @@ import android.os.IBinder
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.fit.map.R
+import com.fit.map.domain.model.LocationModel
 import com.fit.map.domain.usecase.GetLocationUseCase
+import com.fit.map.domain.usecase.SendLocationFirestoreUseCase
+import com.fit.map.utils.getCurrentDateString
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +37,9 @@ class LocationService : Service() {
     @Inject
     lateinit var getLocationUseCase: GetLocationUseCase
 
+    @Inject
+    lateinit var sendLocationFirestoreUseCase: SendLocationFirestoreUseCase
+
     inner class LocationBinder : Binder() {
         fun getService(): LocationService = this@LocationService
     }
@@ -46,7 +52,7 @@ class LocationService : Service() {
         fun onLocationUpdate(latitude: Double, longitude: Double)
     }
 
-    fun registerCallback(callback: LocationCallback) {
+    fun registerCallback(callback: LocationCallback?) {
         this.callback = callback
     }
 
@@ -72,7 +78,7 @@ class LocationService : Service() {
         getLocationUseCase.start().catch {
             Log.d("LocationService", it.message.toString())
         }.onEach { location ->
-            val lat = location.latitude.toString().takeLast(3)
+            val lat = location.latitude.toString()
             val long = location.longitude.toString().takeLast(3)
             val updatedNotification = notification.setContentText(
                 "Location: ($lat, $long)"
@@ -83,7 +89,16 @@ class LocationService : Service() {
             } else {
                 notificationManager.cancel(NOTIFICATION_ID)
             }
-            callback?.onLocationUpdate(location.latitude, location.longitude)
+
+            callback?.onLocationUpdate(location.latitude, location.longitude) ?: run {
+                val request = LocationModel(
+                    "Location",
+                    getCurrentDateString(),
+                    location.latitude,
+                    location.longitude
+                )
+                sendLocationFirestoreUseCase(request)
+            }
         }.launchIn(serviceScope)
         startForeground(NOTIFICATION_ID, notification.build())
     }
