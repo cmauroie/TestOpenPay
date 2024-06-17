@@ -1,7 +1,8 @@
 package com.fit.core.di
 
-import com.fit.core.ACCESS_TOKEN
-import com.fit.core.URL_BASE
+
+import com.fit.core.BuildConfig
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,7 +31,7 @@ object ServerModule {
             .addInterceptor(loggingInterceptor)
             .addInterceptor { chain ->
                 val request = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer $ACCESS_TOKEN")
+                    .addHeader("Authorization", "Bearer ${BuildConfig.ACCESS_TOKEN}")
                     .addHeader("accept", "application/json")
                     .build()
                 chain.proceed(request)
@@ -42,7 +43,7 @@ object ServerModule {
     @Provides
     fun apiClientRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(URL_BASE)
+            .baseUrl(BuildConfig.URL_BASE)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()

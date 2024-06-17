@@ -1,6 +1,6 @@
 package com.fit.movies.data.mappers
 
-import com.fit.core.URL_BASE_IMAGE
+import com.fit.core.BuildConfig
 import com.fit.movies.data.db.CategoryEntity
 import com.fit.movies.data.db.CategoryWithMovies
 import com.fit.movies.data.db.MovieEntity
@@ -18,7 +18,7 @@ fun ResultDto.toDomainModel(): MovieModel {
     return MovieModel(
         this.id,
         this.title,
-        "$URL_BASE_IMAGE${this.posterPath}",
+        "${BuildConfig.URL_BASE_IMAGE}${this.posterPath}",
         this.overview
     )
 }
