@@ -62,7 +62,7 @@ This tab requested: include information on the most popular user, where reviews 
 In this tab, a card was implemented with the image and information of the most popular user provided by the endpoint `/person/popular` 
 and below is the list with the shows (movies or series) for which he or she is recognized.
 
-The tab 1 is configured with Room for data storage, enabling seamless online and offline functionality. This allows users to load and view movies even when their device is not connected to the internet, providing a continuous and reliable user experience.
+**The tab 1 is configured with Room for data storage**, enabling seamless online and offline functionality. This allows users to load and view movies even when their device is not connected to the internet, providing a continuous and reliable user experience.
 
 ## Case with internet connected:
 
@@ -79,7 +79,7 @@ In this tab, 3 calls to services were implemented:
 - Top rated movies: `/movie/top_rated`
 - Recommended movies: `/movie/{movie_id}/recommendations`
 
-- The tab 2 is configured with Room for data storage, enabling seamless online and offline functionality. This allows users to load and view movies even when their device is not connected to the internet, providing a continuous and reliable user experience.
+**The tab 2 is configured with Room for data storage**, enabling seamless online and offline functionality. This allows users to load and view movies even when their device is not connected to the internet, providing a continuous and reliable user experience.
 
 - ## Case without internet connected:
 
@@ -90,9 +90,11 @@ In this tab, 3 calls to services were implemented:
 
 ## Map tab:
 
+**The tab 3 is not configured with Room for data storage**
 This tab requested: Consume from the Firebase console (Cloud Firestore) and display the locations on a Map, additionally showing the
 storage date.
 Add the device location to a Firebase console to persist (Cloud Firestore) every 5 minutes and notify the user using NotificationCompat.
+
 
 In the menu map include two buttons:
 
@@ -113,6 +115,46 @@ When stop button is selected all location reporting processes stop. In this case
 |-----------------------------------------------|-------------------------|
 <img width="1574" alt="Screen Shot 2024-06-17 at 9 20 22 AM" src="https://github.com/cmauroie/TestOpenPay/assets/6970907/7f65d601-09bc-454f-bdb0-ba94b43672dd"> | <img width="317" alt="Screen Shot 2024-06-17 at 3 31 56 PM" src="https://github.com/cmauroie/TestOpenPay/assets/6970907/4a1ae248-5148-4713-8064-607eeca8e35f"> |
 
+
+## Photos tab:
+
+This tab requested: Capture or select one or more images from the device's gallery and upload them to Firebase Storage.
+
+This tab includes 4 buttons (TAKE PHOTO, GALLERY, SAVE PHOTO, SAVE PHOTOS).
+
+The take photo button(TOMAR FOTO) allows you to validate the camera permissions and, if approved, allows you to use the device's camera to capture an image. When the image is captured, it is displayed on the screen on the left.
+
+The save photo button(GUARDAR FOTO), when selected, sends the image captured from the device's camera to Firebase storage and it is stored.
+
+The GALLERY button (GALERIA) allows you to enter the device's gallery and select one or more images. When the user selects the images, the number of selected photos is displayed on the screen.
+
+The save photo button(GUARDAR FOTOS), when selected, sends the selected images from the device gallery to Firebase storage and these remain stored.
+
+
+
+
+Finally, if the user presses the "Save" button the selected images will be uploaded to Firebase Storage.
+
+| Photo take from camera                             | Images selected from Gallery           | Images in Firebase Storage                                       |
+|----------------------------------------------|----------------------------------------------|--------------------------------------------------------|
+| <img width="314" alt="Screen Shot 2024-06-17 at 3 49 18 PM" src="https://github.com/cmauroie/TestOpenPay/assets/6970907/337f94ec-9505-45a8-a045-4cd92db55625"> | <img width="308" alt="Screen Shot 2024-06-17 at 3 51 55 PM" src="https://github.com/cmauroie/TestOpenPay/assets/6970907/2dc249d2-52b7-4549-83b6-5e09974539c5"> | <img width="1166" alt="Screen Shot 2024-06-17 at 4 03 37 PM" src="https://github.com/cmauroie/TestOpenPay/assets/6970907/05953836-202c-49e7-91b7-cb47650209cc"> |
+
+## Unit test (Popular Person tab):
+
+The unit tests were done only in the popular persona module, these included tests for:
+
+- Usecase
+- Remote datasource
+- Local datasource
+- ViewModel
+
+| Unit test implemented  |
+|-----------------------------------------------|
+<img width="1711" alt="Screen Shot 2024-06-17 at 1 03 05 PM" src="https://github.com/cmauroie/TestOpenPay/assets/6970907/20f06872-580b-46a8-a934-a363021ff137"> |
+
+
+
+The unit test
 
 in the presentation layer (App)
 Among other technologies used, it should be noted that:
