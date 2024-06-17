@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/navigation_photos"
-        android:name="com.fit.photo.PhotoFragment"
+        android:name="com.fit.photo.presentation.PhotoFragment"
         android:label="@string/title_photos"
         tools:layout="@layout/fragment_photo" />
 </navigation>

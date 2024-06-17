@@ -1,0 +1,8 @@
+<resources>
+    <string name="title_alert_permission">Permisos necesarios</string>
+    <string name="alert_message_photo">Esta aplicación necesita acceso a la cámara y al almacenamiento para tomar y guardar fotos. Por favor, conceda los permisos necesarios.</string>
+    <string name="btn_positive">Abrir configuración</string>
+    <string name="btn_negative">Cancelar</string>
+    <string name="title_alert_gps_location">GPS desactivado</string>
+    <string name="alert_message_gps">El GPS está desactivado. Por favor, actívelo en la configuración del dispositivo.</string>
+</resources>

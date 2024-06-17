@@ -6,11 +6,12 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.ui.AppBarConfiguration
 import com.fit.map.presentation.MapsFragment
+import com.fit.map.presentation.MapsFragment.Companion.REQUEST_CODE_LOCATION
+import com.fit.map.presentation.MapsFragment.Companion.REQUEST_CODE_POST_NOTIFICATIONS
 import com.fit.movies.presentation.MoviesFragment
-import com.fit.photo.PhotoFragment
+import com.fit.photo.presentation.PhotoFragment
 import com.fit.popularperson.presentation.PopularPersonFragment
 import com.fit.testopenpay.databinding.ActivityMainBinding
-import com.fit.testopenpay.ui.notifications.NotificationsFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -77,6 +78,7 @@ class MainActivity : AppCompatActivity() {
             navView.selectedItemId = R.id.navigation_popularperson
         }
     }
+
     private fun showFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
         supportFragmentManager.fragments.forEach { transaction.hide(it) }
@@ -94,11 +96,15 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        mapsFragment.permissionManager.onRequestPermissionsResult(
-            requestCode,
-            permissions,
-            grantResults
-        )
+        when (requestCode) {
+            REQUEST_CODE_LOCATION, REQUEST_CODE_POST_NOTIFICATIONS -> {
+                mapsFragment.permissionManager.onRequestPermissionsResult(
+                    requestCode,
+                    permissions,
+                    grantResults
+                )
+            }
+        }
     }
 
 }

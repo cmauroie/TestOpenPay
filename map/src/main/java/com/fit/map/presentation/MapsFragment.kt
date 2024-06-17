@@ -42,8 +42,7 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
     private val viewModel: MapsViewModel by viewModels()
 
     private var googleMap: GoogleMap? = null
-    private val REQUEST_CODE_POST_NOTIFICATIONS = 1001
-    private val REQUEST_CODE_LOCATION = 1002
+
 
     private val callback = OnMapReadyCallback { googleMap ->
         this.googleMap = googleMap
@@ -131,7 +130,7 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
         binding.btnStart.setOnClickListener {
             if (!isLocationEnabled(requireContext())) {
                 showGpsDisabledDialog(requireContext())
-            }else{
+            } else {
                 requestLocationPermissions()
             }
         }
@@ -188,18 +187,22 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
     }
 
     private fun requestNotificationPermission() {
-            permissionManager.requestPermissions(
-                arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                REQUEST_CODE_POST_NOTIFICATIONS,
-                object : PermissionManager.PermissionCallback {
-                    override fun onPermissionGranted() {
-                    }
-
-                    override fun onPermissionDenied() {
-                        Toast.makeText(requireContext(), "Permiso necesario para mostrar las notificaciones de la app", Toast.LENGTH_LONG).show()
-                    }
+        permissionManager?.requestPermissions(
+            arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+            REQUEST_CODE_POST_NOTIFICATIONS,
+            object : PermissionManager.PermissionCallback {
+                override fun onPermissionGranted() {
                 }
-            )
+
+                override fun onPermissionDenied() {
+                    Toast.makeText(
+                        requireContext(),
+                        "Permiso necesario para mostrar las notificaciones de la app",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        )
     }
 
     private fun startService() {
@@ -244,5 +247,10 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
             }
         }
         return false
+    }
+
+    companion object {
+        val REQUEST_CODE_POST_NOTIFICATIONS = 1001
+        val REQUEST_CODE_LOCATION = 1002
     }
 }

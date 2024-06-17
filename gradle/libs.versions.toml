@@ -26,6 +26,9 @@ playServicesLocation = "21.3.0"
 googleServices = "4.4.2"
 firebaseBom = "33.1.0"
 firebaseCommonKtx = "21.0.0"
+firebaseAppcheckDebug = "18.0.0"
+glideVersion="4.12.0"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -76,9 +79,17 @@ play-services-maps = { group = "com.google.android.gms", name = "play-services-m
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 #Firebase
-firebase-bom ={ group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
-firebase-firestore ={ group = "com.google.firebase", name = "firebase-firestore-ktx"}
-#firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version.ref = "firebaseCommonKtx" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore-ktx" }
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage-ktx" }
+firebase-appcheck = { group = "com.google.firebase", name = "firebase-appcheck" }
+firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version.ref = "firebaseCommonKtx" }
+firebase-appcheck-debug = { group = "com.google.firebase", name = "firebase-appcheck-debug", version.ref = "firebaseAppcheckDebug" }
+
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glideVersion" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glideVersion" }
+
+
 
 
 [plugins]
