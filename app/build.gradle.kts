@@ -67,6 +67,7 @@ dependencies {
     implementation(project(":popularperson"))
     implementation(project(":movies"))
     implementation(project(":map"))
+    implementation(project(":photo"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

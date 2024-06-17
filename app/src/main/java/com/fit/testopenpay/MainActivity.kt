@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.ui.AppBarConfiguration
 import com.fit.map.presentation.MapsFragment
 import com.fit.movies.presentation.MoviesFragment
+import com.fit.photo.PhotoFragment
 import com.fit.popularperson.presentation.PopularPersonFragment
 import com.fit.testopenpay.databinding.ActivityMainBinding
 import com.fit.testopenpay.ui.notifications.NotificationsFragment
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val popularPersonFragment = PopularPersonFragment()
     private val moviesFragment = MoviesFragment()
     private val mapsFragment = MapsFragment()
-    private val notificationsFragment = NotificationsFragment()
+    private val photoFragment = PhotoFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_popularperson,
                 R.id.navigation_movies,
                 R.id.navigation_map,
-                R.id.navigation_notifications
+                R.id.navigation_photos
             )
         )
         //setupActionBarWithNavController(navController, appBarConfiguration)
@@ -63,8 +64,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-                R.id.navigation_notifications -> {
-                    showFragment(notificationsFragment)
+                R.id.navigation_photos -> {
+                    showFragment(photoFragment)
                     true
                 }
 
