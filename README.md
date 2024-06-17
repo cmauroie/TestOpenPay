@@ -1,12 +1,16 @@
 # TestOpenPay
 
-This application was made following the guidelines of the statement provided
+
+# Demo
+
+- Video: https://drive.google.com/file/d/19rSpBeT2q1DuOCPN4XP5u4TIbit6jBkm/view?usp=drive_link
+
+- Gif: https://drive.google.com/file/d/19rSpBeT2q1DuOCPN4XP5u4TIbit6jBkm/view?usp=drive_link
 
 
+## App overview:
 
-## App structure:
-
-Architecturally, the application is made with **Clean Architecture** and **MVVM** 
+Made with **Clean Architecture** and **MVVM** 
 Android App with Modular Architecture
 This Android application is designed with a modular architecture, incorporating four distinct tabs, each implemented as a separate module. The project follows the MVVM (Model-View-ViewModel) pattern and Clean Architecture principles, ensuring a well-organized, maintainable, and scalable codebase. Each module encapsulates its own functionality and is integrated into the main activity within the app module. The architecture is divided into three layers: Data, Domain, and Presentation.
 
@@ -118,6 +122,7 @@ When stop button is selected all location reporting processes stop. In this case
 
 ## Photos tab:
 
+**The tab 4 is not configured with Room for data storage**(Due to time issues, it was not possible to integrate the room.)
 This tab requested: Capture or select one or more images from the device's gallery and upload them to Firebase Storage.
 
 This tab includes 4 buttons (TAKE PHOTO, GALLERY, SAVE PHOTO, SAVE PHOTOS).
