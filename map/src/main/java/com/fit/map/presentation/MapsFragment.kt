@@ -6,12 +6,12 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -19,6 +19,9 @@ import androidx.lifecycle.lifecycleScope
 import com.fit.core.permission.PermissionManager
 import com.fit.map.R
 import com.fit.map.databinding.FragmentMapsBinding
+import com.fit.map.utils.isLocationEnabled
+import com.fit.map.utils.showGpsDisabledDialog
+import com.fit.map.utils.showPermissionDeniedDialog
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -45,7 +48,7 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
     private val callback = OnMapReadyCallback { googleMap ->
         this.googleMap = googleMap
         val sydney = LatLng(4.7110, 74.0721)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        //googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Map"))
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
@@ -118,15 +121,23 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
         } else {
             mapFragment.getMapAsync(callback)
         }
+        onClickButtons()
 
+        requestNotificationPermission()
+        observerViewModel()
+    }
+
+    private fun onClickButtons() {
         binding.btnStart.setOnClickListener {
-            requestLocationPermissions()
+            if (!isLocationEnabled(requireContext())) {
+                showGpsDisabledDialog(requireContext())
+            }else{
+                requestLocationPermissions()
+            }
         }
         binding.btnStop.setOnClickListener {
             stopService()
         }
-        requestNotificationPermission()
-        observerViewModel()
     }
 
     private fun observerViewModel() {
@@ -161,7 +172,6 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
     }
 
     private fun requestLocationPermissions() {
-
         permissionManager.requestPermissions(arrayOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
@@ -172,26 +182,24 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
 
             override fun onPermissionDenied() {
                 stopService()
+                showPermissionDeniedDialog(requireContext())
             }
         })
     }
 
     private fun requestNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             permissionManager.requestPermissions(
                 arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                 REQUEST_CODE_POST_NOTIFICATIONS,
                 object : PermissionManager.PermissionCallback {
                     override fun onPermissionGranted() {
-                        // El permiso ha sido concedido, puedes mostrar notificaciones
                     }
 
                     override fun onPermissionDenied() {
-                        // El permiso ha sido denegado, maneja el caso adecuadamente
+                        Toast.makeText(requireContext(), "Permiso necesario para mostrar las notificaciones de la app", Toast.LENGTH_LONG).show()
                     }
                 }
             )
-        }
     }
 
     private fun startService() {
@@ -237,14 +245,4 @@ class MapsFragment : Fragment(), LocationService.LocationCallback {
         }
         return false
     }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
-    }
-
-
 }

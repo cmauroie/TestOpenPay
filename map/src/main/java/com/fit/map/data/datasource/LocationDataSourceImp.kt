@@ -62,7 +62,7 @@ class LocationDataSourceImp @Inject constructor(
     }
 
     override fun stopLocationUpdates() {
-        if (!::locationCallback.isInitialized) {
+        if (::locationCallback.isInitialized) {
             locationProviderClient.removeLocationUpdates(locationCallback)
         }
     }

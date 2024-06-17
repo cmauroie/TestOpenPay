@@ -1,6 +1,13 @@
 package com.fit.map.utils
 
+import android.app.AlertDialog
+import android.content.Context
+import android.content.Intent
+import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
+import android.provider.Settings
+import com.fit.map.R
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -21,4 +28,41 @@ fun getCurrentDateString(): String {
         formatter.format(now)
     }
     return currentDateHour
+}
+
+fun showPermissionDeniedDialog(context: Context) {
+    AlertDialog.Builder(context)
+        .setTitle(context.getString(R.string.title_alert_permission_location))
+        .setMessage(R.string.alert_message_location)
+        .setPositiveButton(R.string.btn_positive) { dialog, which ->
+            openAppSettings(context)
+        }
+        .setNegativeButton(R.string.btn_negative, null)
+        .show()
+}
+
+fun openAppSettings(context: Context) {
+    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+        data = Uri.fromParts("package", context.packageName, null)
+    }
+    context.startActivity(intent)
+}
+
+fun showGpsDisabledDialog(context: Context) {
+    AlertDialog.Builder(context)
+        .setTitle(R.string.title_alert_gps_location)
+        .setMessage(R.string.alert_message_gps)
+        .setPositiveButton(R.string.btn_positive) { dialog, which ->
+            val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+            context.startActivity(intent)
+        }
+        .setNegativeButton(R.string.btn_negative, null)
+        .show()
+}
+
+fun isLocationEnabled(context: Context): Boolean {
+    val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+    val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+    val isNetworkEnabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
+    return isGpsEnabled || isNetworkEnabled
 }

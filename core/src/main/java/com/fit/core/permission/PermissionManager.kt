@@ -18,7 +18,11 @@ class PermissionManager @Inject constructor(@ActivityContext private val context
     private var callback: PermissionCallback? = null
     private var requestCode: Int = 0
 
-    fun requestPermissions(permissions: Array<String>, requestCode: Int, callback: PermissionCallback) {
+    fun requestPermissions(
+        permissions: Array<String>,
+        requestCode: Int,
+        callback: PermissionCallback
+    ) {
         this.callback = callback
         this.requestCode = requestCode
 
@@ -29,11 +33,20 @@ class PermissionManager @Inject constructor(@ActivityContext private val context
         if (permissionsToRequest.isEmpty()) {
             callback.onPermissionGranted()
         } else {
-            ActivityCompat.requestPermissions(context as Activity, permissionsToRequest.toTypedArray(), requestCode)
+            ActivityCompat.requestPermissions(
+                context as Activity,
+                permissionsToRequest.toTypedArray(),
+                requestCode
+            )
         }
     }
 
-    fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
+    fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         if (this.requestCode == requestCode) {
             if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
                 callback?.onPermissionGranted()
