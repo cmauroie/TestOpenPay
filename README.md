@@ -7,7 +7,6 @@
 
 - Gif: https://drive.google.com/file/d/19rSpBeT2q1DuOCPN4XP5u4TIbit6jBkm/view?usp=drive_link
 
-
 ## App overview:
 
 Made with **Clean Architecture** and **MVVM** 
@@ -156,6 +155,20 @@ The unit tests were done only in the popular persona module, these included test
 | Unit test implemented  |
 |-----------------------------------------------|
 <img width="1711" alt="Screen Shot 2024-06-17 at 1 03 05 PM" src="https://github.com/cmauroie/TestOpenPay/assets/6970907/20f06872-580b-46a8-a934-a363021ff137"> |
+
+
+## Requirements
+
+Is necesary include this values in local.propertires:
+
+```
+MAPS_API_KEY=
+ACCESS_TOKEN=
+URL_BASE=
+URL_BASE_IMAGE=
+LANGUAGE_MOVIE=
+MOVIE_ID =
+```
 
 
 Among other technologies used, it should be noted that:
