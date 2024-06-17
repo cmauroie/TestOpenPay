@@ -49,5 +49,4 @@ object MovieModule {
         localRepository: LocalMovieRepository
     ): GetMoviesUseCase =
         GetMoviesUseCase(remoteRepository, localRepository)
-
 }
