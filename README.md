@@ -153,15 +153,13 @@ The unit tests were done only in the popular persona module, these included test
 <img width="1711" alt="Screen Shot 2024-06-17 at 1 03 05 PM" src="https://github.com/cmauroie/TestOpenPay/assets/6970907/20f06872-580b-46a8-a934-a363021ff137"> |
 
 
-
-The unit test
-
-in the presentation layer (App)
 Among other technologies used, it should be noted that:
+
 - **Hilt** was used as a dependency injector and is implemented with a separate module for better concern handling
-- For networking and downloading of images **Retrofit** and **Picasso** were used respectively
+- For networking and downloading of images **Retrofit** and **Glide** were used respectively
 - To store information in a local database, **Room** was implemented
 - To handle asynchronization, **kotlin coroutines** were used
 - For the use of the camera, **CameraX** was used
 - For the use of the map, **Google Maps** was used
+- For tab 1 and tab 2, **Jetpack Compose** was used in fragment container
 - Finally, to carry out the unit tests, **MockK** was used
