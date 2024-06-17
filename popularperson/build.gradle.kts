@@ -1,8 +1,12 @@
+import com.adarshr.gradle.testlogger.theme.ThemeType
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.test.logger)
 }
 
 android {
@@ -39,6 +43,28 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
     }
+
+
+    tasks.withType<Test> {
+        testLogging {
+            events("passed", "skipped", "failed")
+            exceptionFormat = TestExceptionFormat.FULL
+            showExceptions = true
+            showCauses = true
+            showStackTraces = true
+            showStandardStreams = true
+        }
+    }
+
+    testlogger {
+        theme = ThemeType.MOCHA // STANDARD, PLAIN, ASCII, etc.
+        showPassed = true
+        showSkipped = true
+        showFailed = true
+        showSummary = true
+        showStandardStreams = true
+        slowThreshold = 2000L // Milisegundos para considerar una prueba como lenta
+    }
 }
 
 dependencies {
@@ -57,6 +83,7 @@ dependencies {
 
     //Hilt
     implementation(libs.hilt.android)
+    testImplementation("junit:junit:4.12")
     kapt(libs.hilt.android.compiler)
 
     //Room
@@ -80,4 +107,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //Mock
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

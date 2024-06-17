@@ -67,6 +67,7 @@ dependencies {
     implementation(project(":popularperson"))
     implementation(project(":movies"))
     implementation(project(":map"))
+    implementation(project(":photo"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -88,4 +89,5 @@ dependencies {
     //Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
+    //implementation(libs.firebase.appcheck.debug)
 }

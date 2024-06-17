@@ -4,9 +4,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
-import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import com.fit.core.utils.openAppSettings
 import com.fit.map.R
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -41,12 +41,7 @@ fun showPermissionDeniedDialog(context: Context) {
         .show()
 }
 
-fun openAppSettings(context: Context) {
-    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        data = Uri.fromParts("package", context.packageName, null)
-    }
-    context.startActivity(intent)
-}
+
 
 fun showGpsDisabledDialog(context: Context) {
     AlertDialog.Builder(context)

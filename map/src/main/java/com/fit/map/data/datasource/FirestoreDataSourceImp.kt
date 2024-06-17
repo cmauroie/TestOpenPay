@@ -1,9 +1,9 @@
 package com.fit.map.data.datasource
 
+import com.fit.map.data.mappers.toServerModel
 import com.fit.map.domain.datasource.FirestoreDataSource
 import com.fit.map.domain.model.LocationModel
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.GeoPoint
 import javax.inject.Inject
 
 class FirestoreDataSourceImp @Inject constructor(private val firebaseFirestore: FirebaseFirestore) :
@@ -17,14 +17,8 @@ class FirestoreDataSourceImp @Inject constructor(private val firebaseFirestore: 
         val collectionRef =
             firebaseFirestore.collection(locationModel.collectionName).document(locationModel.date)
 
-        val datos = Datos(
-            GeoPoint(locationModel.latitude, locationModel.longitude),
-            locationModel.latitude,
-            locationModel.longitude
-        )
-
         collectionRef
-            .set(datos)
+            .set(locationModel.toServerModel())
             .addOnSuccessListener {
                 onSuccess?.invoke(locationModel)
             }
@@ -32,11 +26,5 @@ class FirestoreDataSourceImp @Inject constructor(private val firebaseFirestore: 
                 onFailure?.invoke()
             }
     }
-
-    data class Datos(
-        val geoPoint: GeoPoint,
-        val latitude: Double,
-        val longitude: Double
-    )
 
 }

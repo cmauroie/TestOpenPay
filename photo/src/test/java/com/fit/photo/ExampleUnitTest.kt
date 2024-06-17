@@ -1,4 +1,4 @@
-package com.fit.popularperson
+package com.fit.photo
 
 import org.junit.Test
 
